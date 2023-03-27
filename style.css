@@ -1,23 +1,28 @@
 body {
-  background-color: white;
+  background-image: url(mar-sol.jpg);
+  background-size: cover;
   text-align: center;
-  display: block;
+  border-radius: 10px;
   margin-top: 20px;
   margin-bottom: 20px;
   margin-left: 150px;
   margin-right: 150px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
 .card {
   font-family: Arial, Helvetica, sans-serif;
-  color: #5b6375;
-
-  background-color: #fdfacf;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0);
+  border: outset;
 }
 .container {
   margin-top: 24px;
 }
 
-.zurique {
+.answer {
   text-align: left;
   font-size: 44px;
   margin-left: 16px;
@@ -38,10 +43,9 @@ h3 {
 .days {
   text-align: left;
   font-size: 20px;
-  padding-left: 20px;
+  padding-left: 10px;
 }
 .temperature {
   text-align: right;
   font-size: 20px;
-  padding-right: 5px;
 }

@@ -1,35 +1,51 @@
-function submittingE(event) {
-  let input = document.querySelector("#searchbarCity");
-  let h1 = document.querySelector("h1");
+function submittingCity(event) {
+  let searchBar = document.querySelector("#searchbarCity");
+  let cityName = searchBar.value;
 
-  h1.innerHTML = input.value;
+  let answer = document.querySelector("#answer");
+  answer.innerHTML = cityName;
+
+  let city = cityName;
+  let key = "5f472b7acba333cd8a035ea85a0d4d4c";
+  let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric`;
+  axios.get(url).then(displaytemp);
+}
+function displaytemp(response) {
+  let temperature = Math.round(response.data.main.temp);
+  let weatherDiv = document.querySelector("#temp");
+
+  weatherDiv.innerHTML = temperature;
 }
 
-function GotoCelscius(event) {
-  event.preventDefault();
-  let temp = document.querySelector("#temp");
-  temp.innerHTML = "22";
+function submittingGPS(event) {
+  navigator.geolocation.getCurrentPosition(givePosition);
 }
+function givePosition(position) {
+  let key = "5f472b7acba333cd8a035ea85a0d4d4c";
+  let url = `https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=${key}&units=metric`;
 
-function GoFar(event) {
-  event.preventDefault();
-  let temp = document.querySelector("#temp");
-  temp.innerHTML = "123";
+  axios.get(url).then(displaytempAndGPS);
 }
+function displaytempAndGPS(response) {
+  let temperature = Math.round(response.data.main.temp);
+  let weatherDiv = document.querySelector("#temp");
+  weatherDiv.innerHTML = temperature;
 
-let far = document.querySelector("#farhenheitL");
-if (far) {
-  far.addEventListener("click", GoFar);
-}
-
-let celc = document.querySelector("#celsciusL");
-if (celc) {
-  celc.addEventListener("click", GotoCelscius);
+  let city = response.data.name;
+  let answer = document.querySelector("#answer");
+  let lon = response.data.coord.lon;
+  let lat = response.data.coord.lat;
+  answer.innerHTML = city + ` with the positions ` + lon + ` / ` + lat;
 }
 
 let searchBar = document.querySelector("#searchbarCity");
 if (searchBar) {
-  searchBar.addEventListener("search", submittingE);
+  searchBar.addEventListener("search", submittingCity);
+}
+
+let gPSButton = document.querySelector("#GPSButton");
+if (gPSButton) {
+  gPSButton.addEventListener("click", submittingGPS);
 }
 
 const date = new Date();
