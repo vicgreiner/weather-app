@@ -1,0 +1,47 @@
+body {
+  background-color: white;
+  text-align: center;
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 150px;
+  margin-right: 150px;
+}
+.card {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #5b6375;
+
+  background-color: #fdfacf;
+}
+.container {
+  margin-top: 24px;
+}
+
+.zurique {
+  text-align: left;
+  font-size: 44px;
+  margin-left: 16px;
+}
+
+h2 {
+  text-align: left;
+  font-size: 30px;
+  margin-left: 32px;
+}
+
+h3 {
+  text-align: right;
+  font-size: 40px;
+  margin-right: 16px;
+}
+
+.days {
+  text-align: left;
+  font-size: 20px;
+  padding-left: 20px;
+}
+.temperature {
+  text-align: right;
+  font-size: 20px;
+  padding-right: 5px;
+}
