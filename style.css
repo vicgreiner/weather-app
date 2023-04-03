@@ -39,6 +39,11 @@ h3 {
   font-size: 40px;
   margin-right: 16px;
 }
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .days {
   text-align: left;
