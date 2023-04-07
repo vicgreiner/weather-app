@@ -15,6 +15,42 @@ function submittingCity(event) {
   }
 }
 
+function GetForcastValues(response) {
+  let key = "5f472b7acba333cd8a035ea85a0d4d4c";
+  let lat = response.data.coord.lat;
+  let lon = response.data.coord.lon;
+  let url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&units=${measurementUnit}&appid=${key}`;
+
+  axios.get(url).then(displayForcast);
+}
+function displayForcast(response) {
+  let forcastDaysTemperature_List = response.data.daily;
+  let day = 1;
+  let forcastTemperature_List = document.querySelectorAll(".temperature");
+  let forcastTemperature_Array = [...forcastTemperature_List];
+  forcastTemperature_Array.forEach((forcastTemperature) => {
+    forcastTemperature.innerHTML =
+      Math.round(forcastDaysTemperature_List[day].temp.day) + "°";
+    day++;
+  });
+
+  day = 1;
+  let forcastTempPicture_List = document.querySelectorAll("#forcastPicture");
+  let forcastTempPicture_Array = [...forcastTempPicture_List];
+  forcastTempPicture_Array.forEach((forcastTempPicture) => {
+    forcastTempPicture.setAttribute(
+      "src",
+      `http://openweathermap.org/img/wn/${response.data.daily[day].weather[0].icon}@2x.png`
+    );
+    forcastTempPicture.setAttribute(
+      "alt",
+      response.data.daily[day].weather[0].description
+    );
+
+    day++;
+  });
+}
+
 function displaytemp(response) {
   let temperature = Math.round(response.data.main.temp);
 
@@ -32,6 +68,8 @@ function displaytemp(response) {
   displayWindSpeed(Math.round(response.data.wind.speed));
   displayWindDescription(response.data.weather[0].description);
   IconWeather(response.data.weather[0].icon);
+
+  GetForcastValues(response);
 }
 
 function displayWindSpeed(speed) {
@@ -40,6 +78,7 @@ function displayWindSpeed(speed) {
     h4.innerHTML = `${speed} km/hour`;
   }
 }
+
 function displayWindDescription(description) {
   let h5 = document.querySelector("h5");
   if (h5) {
@@ -50,12 +89,14 @@ function displayWindDescription(description) {
 function submittingGPS(event) {
   navigator.geolocation.getCurrentPosition(givePosition);
 }
+
 function givePosition(position) {
   let key = "5f472b7acba333cd8a035ea85a0d4d4c";
   let url = `https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=${key}&units=${measurementUnit}`;
 
   axios.get(url).then(displaytempAndGPS);
 }
+
 function displaytempAndGPS(response) {
   let temperature = Math.round(response.data.main.temp);
 
@@ -79,6 +120,8 @@ function displaytempAndGPS(response) {
   displayWindSpeed(Math.round(response.data.wind.speed));
   displayWindDescription(response.data.weather[0].description);
   IconWeather(response.data.weather[0].icon);
+
+  GetForcastValues(response);
 }
 
 let searchBar = document.querySelector("#searchbarCity");
@@ -94,6 +137,7 @@ navigator.geolocation.getCurrentPosition(givePosition);
 
 const date = new Date();
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
 const months = [
   "January",
   "February",
@@ -154,3 +198,28 @@ function IconWeather(weatherDesc) {
   );
   iconElement.setAttribute("alt", weatherDesc);
 }
+
+function ForcastDays() {
+  const daysFull = [
+    "Sunday",
+    "Monday",
+    "Tueday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  let currentDayNumber = date.getDay();
+  let nextDay = 1;
+  let forcastDays_List = document.querySelectorAll(".days");
+  let forcastDays_Array = [...forcastDays_List];
+  forcastDays_Array.forEach((forcastDay) => {
+    let dayName = daysFull[(currentDayNumber + nextDay) % 7];
+    forcastDay.innerHTML = dayName;
+    nextDay++;
+  });
+}
+
+ForcastDays();
+//https://harmonious-concha-5b178c.netlify.app/
